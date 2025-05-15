@@ -31,6 +31,7 @@ class SubjectController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:subjects,name',
+            // bắt buộc, là chuỗi, tối đa 255 ký tự, và không trùng tên môn học đã có.
         ]);
         $subjectCode = 'PKA' . str_pad(Subject::count() + 1, 3, '0', STR_PAD_LEFT);
         Subject::create([

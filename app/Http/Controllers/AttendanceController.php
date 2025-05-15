@@ -11,9 +11,7 @@ class AttendanceController extends Controller
 {
     public function index(Request $request, Student $student)
     {
-
         $filter = $request->query('filter', '');
-
         $attendances = Attendance::where('student_id', $student->id)
             ->with('subject')
             ->when($filter === 'fail', function ($query) {

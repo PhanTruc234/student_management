@@ -20,7 +20,6 @@ class Score extends Model
     {
         return $this->belongsTo(Student::class);
     }
-
     // Quan hệ với Subject quan hệ 1
     public function subject()
     {
