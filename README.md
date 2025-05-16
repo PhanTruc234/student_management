@@ -1,61 +1,66 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hệ thống Quản lý Sinh viên
+## Giới thiệu
+- Quản lý **thông tin sinh viên**: mã sinh viên, họ tên, email, giới tính, ngày sinh.
+- Quản lý **môn học**: tên môn, mã môn học.
+- Quản lý **điểm số sinh viên** theo từng môn học.
+- Ghi nhận **số buổi vắng** của sinh viên đối với từng môn học (quản lý điểm danh).
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Cấu trúc rõ ràng, tách biệt các chức năng theo mô hình MVC của Laravel, giúp dễ dàng mở rộng, tái sử dụng và nâng cấp.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Các chức năng chính
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Module         | Chức năng                                                                 |
+|----------------|-------------------------------------------------------------------------- |
+| Sinh viên      | - Thêm, sửa, xóa sinh viên<br>- Tìm kiếm sinh viên theo tên, mã, email    |
+| Môn học        | - Thêm mới, chỉnh sửa, xóa môn học                                        |
+| Điểm số        | - Gán điểm cho sinh viên theo từng môn<br>- Sửa và xem điểm               |
+| Điểm danh      | - Ghi nhận số buổi vắng của sinh viên theo từng môn                       |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+##  Mô hình cơ sở dữ liệu
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### students – Thông tin sinh viên
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+| Tên cột | Kiểu dữ liệu | Ghi chú                      |
+|--------|---------------|------------------------------|
+| id     | BIGINT        | Khóa chính                   |
+| code   | VARCHAR(10)   | Mã sinh viên, duy nhất       |
+| name   | VARCHAR       | Tên sinh viên                |
+| email  | VARCHAR       | Email, duy nhất              |
+| gender | VARCHAR       | Giới tính (Nam/Nữ)           |
+| dob    | DATE          | Ngày sinh                    |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+### subjects – Thông tin môn học
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Tên cột | Kiểu dữ liệu | Ghi chú                      |
+|--------|---------------|------------------------------|
+| id     | BIGINT        | Khóa chính                   |
+| code   | VARCHAR       | Mã môn học, duy nhất         |
+| name   | VARCHAR       | Tên môn học                  |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+### scores – Bảng điểm
 
-## Contributing
+| Tên cột    | Kiểu dữ liệu   | Ghi chú                                        |
+|-----------|----------------|------------------------------------------------|
+| id        | BIGINT         | Khóa chính                                     |
+| student_id| FOREIGN (BIGINT)| Liên kết đến bảng `students`                   |
+| subject_id| FOREIGN (BIGINT)| Liên kết đến bảng `subjects`                   |
+| score     | DECIMAL(5,2)   | Điểm số (vd: 7.50, 9.25)                       |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+### attendances – Điểm danh
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Tên cột         | Kiểu dữ liệu    | Ghi chú                                       |
+|-----------------|-----------------|-----------------------------------------------|
+| id              | BIGINT          | Khóa chính                                    |
+| student_id      | FOREIGN (BIGINT)| FK đến `students`                             |
+| subject_id      | FOREIGN (BIGINT)| FK đến `subjects`                             |
+| absent_sessions | INTEGER         | Số buổi vắng học của sinh viên trong môn đó   |
