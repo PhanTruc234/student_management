@@ -25,6 +25,7 @@
             <tr>
                 <th>Mã Môn Học</th>
                 <th>Tên Môn Học</th>
+                <th>Số tín</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -33,6 +34,7 @@
                 <tr>
                     <td class="align-middle">{{ $subject->code }}</td>
                     <td class="align-middle">{{ $subject->name }}</td>
+                    <td class="align-middle">{{ $subject->credit }}</td>
                     <td class="align-middle">
                         <a href="{{ route('subjects.edit', $subject->id) }}" class="btn btn-primary btn-sm">Sửa</a>
                         <form action="{{ route('subjects.destroy', $subject->id) }}" method="POST" style="display:inline;">
