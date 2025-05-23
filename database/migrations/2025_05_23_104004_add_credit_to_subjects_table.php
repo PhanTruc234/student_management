@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('subjects', function (Blueprint $table) {
-            $table->integer('credit')->default(1); // số tín chỉ, mặc định là 1
+            $table->integer('credit')->default(1); 
         });
     }
 
