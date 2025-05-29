@@ -13,7 +13,7 @@ class ScoreController extends Controller
     {
         $sort = $request->query('sort', '');
         $filter = $request->query('filter', '');
-
+        // Lấy giá trị tham số sort trong URL.
         $scores = $student->scores()->with('subject')
             // Lấy tất cả điểm của sinh viên, đồng thời load cả thông tin môn học liên quan.
             ->when($sort === 'score_desc', function ($query) {
