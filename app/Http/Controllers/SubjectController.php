@@ -53,14 +53,13 @@ class SubjectController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:subjects,name,' . $subject->id,
-            'credit' => 'required|integer|min:1'
+            'credit' => 'required|integer|min:1',
         ]);
 
         $subject->update([
             'name' => $request->name,
             'credit' => $request->credit,
         ]);
-
         return redirect()->route('subjects.index')->with('success', 'Môn học đã được cập nhật');
     }
 
