@@ -47,12 +47,12 @@ Cấu trúc rõ ràng, tách biệt các chức năng theo mô hình MVC của L
 
 ### scores – Bảng điểm
 
-| Tên cột    | Kiểu dữ liệu   | Ghi chú                                        |
+| Tên cột    | Kiểu dữ liệu   | Ghi chú                                       |
 |-----------|----------------|------------------------------------------------|
 | id        | BIGINT         | Khóa chính                                     |
-| student_id| FOREIGN (BIGINT)| Liên kết đến bảng `students`                   |
-| subject_id| FOREIGN (BIGINT)| Liên kết đến bảng `subjects`                   |
-| score     | DECIMAL(5,2)   | Điểm số (vd: 7.50, 9.25)                       |
+| student_id| FOREIGN (BIGINT)| Liên kết đến bảng `students`                  |
+| subject_id| FOREIGN (BIGINT)| Liên kết đến bảng `subjects`                  |
+| score     | DECIMAL(5,2)   | Điểm số                                        |
 
 ---
 
@@ -64,3 +64,48 @@ Cấu trúc rõ ràng, tách biệt các chức năng theo mô hình MVC của L
 | student_id      | FOREIGN (BIGINT)| FK đến `students`                             |
 | subject_id      | FOREIGN (BIGINT)| FK đến `subjects`                             |
 | absent_sessions | INTEGER         | Số buổi vắng học của sinh viên trong môn đó   |
+
+### API Endpoints
+Tất cả các API trả về JSON.
+
+### SubjectApiController
+GET /api/subjects: Danh sách môn học (có phân trang + tìm kiếm search=)
+
+POST /api/subjects: Thêm môn học
+
+PUT /api/subjects/{id}: Cập nhật môn học
+
+DELETE /api/subjects/{id}: Xóa môn học
+
+### StudentApiController
+GET /api/students: Danh sách sinh viên, cho phép:
+
+Tìm kiếm: ?search=abc
+
+Sắp xếp: ?sort=name_desc, ?sort=average_score_desc
+
+POST /api/students: Thêm sinh viên mới
+
+PUT /api/students/{id}: Cập nhật thông tin sinh viên
+
+DELETE /api/students/{id}: Xóa sinh viên
+
+### ScoreApiController
+GET /api/students/{student}/scores: Danh sách điểm của sinh viên
+
+GET /api/scores/{id}: Chi tiết điểm
+
+POST /api/scores: Thêm điểm
+
+PUT /api/scores/{id}: Cập nhật điểm
+
+DELETE /api/scores/{id}: Xóa điểm
+
+### AttendanceApiController
+GET /api/attendances: Danh sách điểm danh (có thông tin sinh viên)
+
+POST /api/attendances: Ghi nhận điểm danh
+
+PUT /api/attendances/{id}: Cập nhật số buổi vắng
+
+DELETE /api/attendances/{id}: Xóa ghi nhận điểm danh
