@@ -23,7 +23,6 @@ Cấu trúc rõ ràng, tách biệt các chức năng theo mô hình MVC của L
 ##  Mô hình cơ sở dữ liệu
 
 ### students – Thông tin sinh viên
-### link demo: https://demo234.id.vn/
 | Tên cột | Kiểu dữ liệu | Ghi chú                      |
 |--------|---------------|------------------------------|
 | id     | BIGINT        | Khóa chính                   |
@@ -111,3 +110,4 @@ POST /api/attendances: Ghi nhận điểm danh
 PUT /api/attendances/{id}: Cập nhật số buổi vắng
 
 DELETE /api/attendances/{id}: Xóa ghi nhận điểm danh
+### link demo: https://demo234.id.vn/
