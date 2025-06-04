@@ -23,7 +23,7 @@ Cấu trúc rõ ràng, tách biệt các chức năng theo mô hình MVC của L
 ##  Mô hình cơ sở dữ liệu
 
 ### students – Thông tin sinh viên
-
+### link demo: https://demo234.id.vn/
 | Tên cột | Kiểu dữ liệu | Ghi chú                      |
 |--------|---------------|------------------------------|
 | id     | BIGINT        | Khóa chính                   |
