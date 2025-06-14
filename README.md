@@ -1,113 +1,148 @@
 # Hệ thống Quản lý Sinh viên
-## Giới thiệu
-- Quản lý **thông tin sinh viên**: mã sinh viên, họ tên, email, giới tính, ngày sinh.
-- Quản lý **môn học**: tên môn, mã môn học.
-- Quản lý **điểm số sinh viên** theo từng môn học.
-- Ghi nhận **số buổi vắng** của sinh viên đối với từng môn học (quản lý điểm danh).
 
-Cấu trúc rõ ràng, tách biệt các chức năng theo mô hình MVC của Laravel, giúp dễ dàng mở rộng, tái sử dụng và nâng cấp.
+## 🚀 Giới thiệu
+
+Hệ thống giúp quản lý toàn diện thông tin sinh viên, môn học, điểm số và điểm danh. Được xây dựng theo mô hình **MVC của Laravel**, dễ mở rộng và bảo trì.
 
 ---
 
-## Các chức năng chính
+## 🔧 Các chức năng chính
 
-| Module         | Chức năng                                                                 |
-|----------------|-------------------------------------------------------------------------- |
-| Sinh viên      | - Thêm, sửa, xóa sinh viên<br>- Tìm kiếm sinh viên theo tên, mã, email    |
-| Môn học        | - Thêm mới, chỉnh sửa, xóa môn học                                        |
-| Điểm số        | - Gán điểm cho sinh viên theo từng môn<br>- Sửa và xem điểm               |
-| Điểm danh      | - Ghi nhận số buổi vắng của sinh viên theo từng môn                       |
-
----
-
-##  Mô hình cơ sở dữ liệu
-
-### students – Thông tin sinh viên
-| Tên cột | Kiểu dữ liệu | Ghi chú                      |
-|--------|---------------|------------------------------|
-| id     | BIGINT        | Khóa chính                   |
-| code   | VARCHAR(10)   | Mã sinh viên, duy nhất       |
-| name   | VARCHAR       | Tên sinh viên                |
-| email  | VARCHAR       | Email, duy nhất              |
-| gender | VARCHAR       | Giới tính (Nam/Nữ)           |
-| dob    | DATE          | Ngày sinh                    |
+| Module    | Chức năng                                                                 |
+|-----------|-------------------------------------------------------------------------- |
+| **Sinh viên**  | - Thêm, sửa, xóa sinh viên<br>- Tìm kiếm sinh viên theo tên, mã, email |
+| **Môn học**    | - Thêm, sửa, xóa môn học                                              |
+| **Điểm số**    | - Nhập, sửa điểm sinh viên theo từng môn<br>- Tính điểm tổng kết     |
+| **Điểm danh**  | - Ghi nhận số buổi vắng chi tiết theo từng buổi học                  |
 
 ---
 
-### subjects – Thông tin môn học
+## 🧩 Mô hình cơ sở dữ liệu
 
-| Tên cột | Kiểu dữ liệu | Ghi chú                      |
-|--------|---------------|------------------------------|
-| id     | BIGINT        | Khóa chính                   |
-| code   | VARCHAR       | Mã môn học, duy nhất         |
-| name   | VARCHAR       | Tên môn học                  |
+### `students`
+
+| Cột     | Kiểu dữ liệu  | Ghi chú              |
+|---------|---------------|----------------------|
+| id      | BIGINT        | Khóa chính           |
+| code    | VARCHAR(10)   | Mã sinh viên, duy nhất|
+| name    | VARCHAR       | Họ tên sinh viên     |
+| email   | VARCHAR       | Email, duy nhất      |
+| gender  | VARCHAR       | Giới tính            |
+| dob     | DATE          | Ngày sinh            |
+
+### `subjects`
+
+| Cột     | Kiểu dữ liệu | Ghi chú               |
+|---------|--------------|-----------------------|
+| id      | BIGINT       | Khóa chính            |
+| code    | VARCHAR      | Mã môn học, duy nhất  |
+| name    | VARCHAR      | Tên môn học           |
+| credit  | INT          | Số tín chỉ (thêm mới) |
+| total_sessions | INT   | Tổng số buổi học      |
+
+### `scores`
+
+| Cột       | Kiểu dữ liệu  | Ghi chú                                |
+|-----------|----------------|----------------------------------------|
+| id        | BIGINT         | Khóa chính                            |
+| student_id| FOREIGN (BIGINT)| Liên kết đến `students`               |
+| subject_id| FOREIGN (BIGINT)| Liên kết đến `subjects`               |
+| cc1       | FLOAT          | Chuyên cần từ điểm danh               |
+| cc2       | FLOAT          | Chuyên cần nhập tay                   |
+| midterm   | FLOAT          | Giữa kỳ                               |
+| final     | FLOAT          | Cuối kỳ                               |
+| score     | FLOAT          | Điểm tổng kết (calculated)            |
+
+### `attendances`
+
+| Cột             | Kiểu dữ liệu     | Ghi chú                                  |
+|-----------------|------------------|------------------------------------------|
+| id              | BIGINT           | Khóa chính                               |
+| student_id      | FOREIGN (BIGINT) | FK đến `students`                        |
+| subject_id      | FOREIGN (BIGINT) | FK đến `subjects`                        |
+| absent_sessions | INT              | Số buổi vắng (tính từ `session_details`)|
+| session_details | JSON             | Lưu mảng trạng thái điểm danh (true/false)|
 
 ---
 
-### scores – Bảng điểm
+## 🔄 Logic Tính Điểm & Học Lại
 
-| Tên cột    | Kiểu dữ liệu   | Ghi chú                                       |
-|-----------|----------------|------------------------------------------------|
-| id        | BIGINT         | Khóa chính                                     |
-| student_id| FOREIGN (BIGINT)| Liên kết đến bảng `students`                  |
-| subject_id| FOREIGN (BIGINT)| Liên kết đến bảng `subjects`                  |
-| score     | DECIMAL(5,2)   | Điểm số                                        |
+- **cc1 = max(0, 10 - số buổi vắng * 3)**
+- Nếu `số buổi vắng > 3` → Học lại môn
+- **Điểm tổng kết =** `cc1 * 0.05 + cc2 * 0.05 + midterm * 0.3 + final * 0.6`
 
 ---
 
-### attendances – Điểm danh
+## 🔌 API Endpoints
 
-| Tên cột         | Kiểu dữ liệu    | Ghi chú                                       |
-|-----------------|-----------------|-----------------------------------------------|
-| id              | BIGINT          | Khóa chính                                    |
-| student_id      | FOREIGN (BIGINT)| FK đến `students`                             |
-| subject_id      | FOREIGN (BIGINT)| FK đến `subjects`                             |
-| absent_sessions | INTEGER         | Số buổi vắng học của sinh viên trong môn đó   |
-### Mô hình ERD : ![Screenshot 2025-06-03 115734](https://github.com/user-attachments/assets/b6bb9a04-15a9-4910-bc8a-e76f2e5eb194)
+Tất cả API trả về JSON.
 
+### 📘 SubjectApiController
 
-### API Endpoints
-Tất cả các API trả về JSON.
+| Phương thức | Endpoint           | Mô tả                    |
+|-------------|--------------------|---------------------------|
+| GET         | /api/subjects      | Lấy danh sách môn học    |
+| POST        | /api/subjects      | Tạo mới môn học          |
+| PUT         | /api/subjects/{id} | Cập nhật môn học         |
+| DELETE      | /api/subjects/{id} | Xóa môn học              |
 
-### SubjectApiController
-GET /api/subjects: Danh sách môn học (có phân trang + tìm kiếm search=)
+---
 
-POST /api/subjects: Thêm môn học
+### 👨‍🎓 StudentApiController
 
-PUT /api/subjects/{id}: Cập nhật môn học
+| Phương thức | Endpoint           | Mô tả                                          |
+|-------------|--------------------|------------------------------------------------|
+| GET         | /api/students      | Danh sách sinh viên (search, sort)            |
+| POST        | /api/students      | Thêm sinh viên mới                            |
+| PUT         | /api/students/{id} | Cập nhật thông tin sinh viên                  |
+| DELETE      | /api/students/{id} | Xóa sinh viên                                  |
 
-DELETE /api/subjects/{id}: Xóa môn học
+---
 
-### StudentApiController
-GET /api/students: Danh sách sinh viên, cho phép:
+### 📝 ScoreApiController
 
-Tìm kiếm: ?search=abc
+| Phương thức | Endpoint                            | Mô tả                      |
+|-------------|--------------------------------------|-----------------------------|
+| GET         | /students/{id}/scores               | Danh sách điểm theo sinh viên |
+| POST        | /students/{id}/scores               | Gán điểm                    |
+| PUT         | /scores/{id}                        | Cập nhật điểm              |
+| DELETE      | /scores/{id}                        | Xóa điểm                   |
 
-Sắp xếp: ?sort=name_desc, ?sort=average_score_desc
+---
 
-POST /api/students: Thêm sinh viên mới
+### ⏰ AttendanceApiController
 
-PUT /api/students/{id}: Cập nhật thông tin sinh viên
+| Phương thức | Endpoint                               | Mô tả                            |
+|-------------|-----------------------------------------|-----------------------------------|
+| GET         | /students/{id}/attendances             | Xem điểm danh                    |
+| POST        | /students/{id}/attendances             | Ghi nhận điểm danh               |
+| PUT         | /attendances/{id}                      | Cập nhật số buổi vắng            |
+| DELETE      | /attendances/{id}                      | Xóa ghi nhận                     |
 
-DELETE /api/students/{id}: Xóa sinh viên
+---
 
-### ScoreApiController
-GET /api/students/{student}/scores: Danh sách điểm của sinh viên
+## 🔒 Xác thực & Phân quyền
 
-GET /api/scores/{id}: Chi tiết điểm
+- **Admin**: Có quyền truy cập và chỉnh sửa toàn bộ dữ liệu.
+- **Người dùng thông thường**: Truy cập dashboard và profile cá nhân.
 
-POST /api/scores: Thêm điểm
+---
 
-PUT /api/scores/{id}: Cập nhật điểm
+## 🗂️ Cấu trúc Route chính
 
-DELETE /api/scores/{id}: Xóa điểm
+### `web.php` (giao diện web)
 
-### AttendanceApiController
-GET /api/attendances: Danh sách điểm danh (có thông tin sinh viên)
+- `/students`, `/subjects`, `/students/{id}/scores`, `/students/{id}/attendances`, ...
+- `/dashboard`, `/profile`, ...
 
-POST /api/attendances: Ghi nhận điểm danh
+### `api.php` (RESTful API)
 
-PUT /api/attendances/{id}: Cập nhật số buổi vắng
+- `/api/students`, `/api/subjects`, `/api/scores`, `/api/attendances`, ...
 
-DELETE /api/attendances/{id}: Xóa ghi nhận điểm danh
-### link demo: https://demo234.id.vn/
+---
+
+## 📘 Ghi chú
+
+- **Sử dụng CSDL `mysql_aiven`** cho toàn bộ các model.
+- Dữ liệu điểm danh chi tiết lưu trong `JSON` để theo dõi từng buổi học.
+- Hệ thống hỗ trợ cả **giao diện web** và **API** phục vụ frontend/mobile.
