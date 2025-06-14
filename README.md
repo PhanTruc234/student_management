@@ -72,6 +72,47 @@ Hệ thống giúp quản lý toàn diện thông tin sinh viên, môn học, đ
 - **Điểm tổng kết =** `cc1 * 0.05 + cc2 * 0.05 + midterm * 0.3 + final * 0.6`
 
 ---
+### sơ đồ class diagram 
+![Screenshot 2025-06-14 100605](https://github.com/user-attachments/assets/01d31ebc-c65a-4b4c-9608-af2bd98b7f33)
+### sơ đồ activity diagram
+![Screenshot 2025-06-14 102656](https://github.com/user-attachments/assets/9b6c5f32-6b2e-4b8f-ab1c-0098438645de)
+
+### demo
+### chức năng quản lý sinh viên 
+### danh sách sinh viên
+![Screenshot 2025-06-14 111444](https://github.com/user-attachments/assets/9d3fdf3a-df96-4643-b28d-67e850d4b1b0)
+### thêm sinh viên 
+![Screenshot 2025-06-14 111602](https://github.com/user-attachments/assets/44fa0355-e131-4f03-997e-30381bc6ef58)
+### chức năng môn học 
+### danh sách môn học 
+![Screenshot 2025-06-14 111658](https://github.com/user-attachments/assets/97140359-4312-4413-9cb3-4dbbe0056698)
+### danh sách diểm của sinh viên
+![Screenshot 2025-06-14 111757](https://github.com/user-attachments/assets/3b1f30a0-a804-463e-af33-d06987335987)
+### danh sách điểm danh của sinh viên
+![Screenshot 2025-06-14 111835](https://github.com/user-attachments/assets/51d08011-c544-42c1-84f6-1576ccda5563)
+### danh sách điểm của tất cả sinh viên 
+![Screenshot 2025-06-14 111922](https://github.com/user-attachments/assets/e5e34968-ee93-4462-9084-4aff2b12561a)
+### danh sách điểm danh của tất cả sinh viên 
+![Screenshot 2025-06-14 111954](https://github.com/user-attachments/assets/c1d7269a-acc0-4d03-93e8-5056b32ec4e7)
+### Code 
+Model student 
+![Screenshot 2025-06-14 112120](https://github.com/user-attachments/assets/2f005515-222c-495e-b9ac-df05f90f19b7)
+Model score 
+![Screenshot 2025-06-14 112156](https://github.com/user-attachments/assets/1c8852bb-26aa-464e-85e7-7132acfcafb1)
+Model subject 
+![Screenshot 2025-06-14 112239](https://github.com/user-attachments/assets/7b3841e4-8a38-41ed-890a-b7ed18483ec1)
+Model attendance 
+![Screenshot 2025-06-14 112317](https://github.com/user-attachments/assets/7bef0a47-f7f1-47ba-b825-e7514ed6a2d8)
+### Controller
+StudentController 
+![Screenshot 2025-06-14 112427](https://github.com/user-attachments/assets/e930f3bc-5665-4e08-8842-fd5ba2bbbde7)
+ScoreController 
+![Screenshot 2025-06-14 112516](https://github.com/user-attachments/assets/315fcfa9-04e2-43a8-aef2-964a6975150b)
+### View
+student 
+![Screenshot 2025-06-14 112614](https://github.com/user-attachments/assets/8707a1ae-1ff7-40b9-bd05-5afc428d9c22)
+score 
+![image](https://github.com/user-attachments/assets/c00eeec2-9789-4512-9379-0116e6795f05)
 
 ## 🔌 API Endpoints
 
