@@ -1,12 +1,12 @@
 # Hệ thống Quản lý Sinh viên
 
-## 🚀 Giới thiệu
+## Giới thiệu
 
 Hệ thống giúp quản lý toàn diện thông tin sinh viên, môn học, điểm số và điểm danh. Được xây dựng theo mô hình **MVC của Laravel**, dễ mở rộng và bảo trì.
 
 ---
 
-## 🔧 Các chức năng chính
+## Các chức năng chính
 
 | Module    | Chức năng                                                                 |
 |-----------|-------------------------------------------------------------------------- |
@@ -17,7 +17,7 @@ Hệ thống giúp quản lý toàn diện thông tin sinh viên, môn học, đ
 
 ---
 
-## 🧩 Mô hình cơ sở dữ liệu
+## Mô hình cơ sở dữ liệu
 
 ### `students`
 
@@ -65,7 +65,7 @@ Hệ thống giúp quản lý toàn diện thông tin sinh viên, môn học, đ
 
 ---
 
-## 🔄 Logic Tính Điểm & Học Lại
+## Logic Tính Điểm & Học Lại
 
 - **cc1 = max(0, 10 - số buổi vắng * 3)**
 - Nếu `số buổi vắng > 3` → Học lại môn
@@ -118,7 +118,7 @@ score
 
 Tất cả API trả về JSON.
 
-### 📘 SubjectApiController
+### SubjectApiController
 
 | Phương thức | Endpoint           | Mô tả                    |
 |-------------|--------------------|---------------------------|
@@ -129,7 +129,7 @@ Tất cả API trả về JSON.
 
 ---
 
-### 👨‍🎓 StudentApiController
+### StudentApiController
 
 | Phương thức | Endpoint           | Mô tả                                          |
 |-------------|--------------------|------------------------------------------------|
@@ -140,7 +140,7 @@ Tất cả API trả về JSON.
 
 ---
 
-### 📝 ScoreApiController
+### ScoreApiController
 
 | Phương thức | Endpoint                            | Mô tả                      |
 |-------------|--------------------------------------|-----------------------------|
@@ -151,7 +151,7 @@ Tất cả API trả về JSON.
 
 ---
 
-### ⏰ AttendanceApiController
+### AttendanceApiController
 
 | Phương thức | Endpoint                               | Mô tả                            |
 |-------------|-----------------------------------------|-----------------------------------|
@@ -162,14 +162,14 @@ Tất cả API trả về JSON.
 
 ---
 
-## 🔒 Xác thực & Phân quyền
+## Xác thực & Phân quyền
 
 - **Admin**: Có quyền truy cập và chỉnh sửa toàn bộ dữ liệu.
 - **Người dùng thông thường**: Truy cập dashboard và profile cá nhân.
 
 ---
 
-## 🗂️ Cấu trúc Route chính
+## Cấu trúc Route chính
 
 ### `web.php` (giao diện web)
 
@@ -182,7 +182,7 @@ Tất cả API trả về JSON.
 
 ---
 
-## 📘 Ghi chú
+## Ghi chú
 
 - **Sử dụng CSDL `mysql_aiven`** cho toàn bộ các model.
 - Dữ liệu điểm danh chi tiết lưu trong `JSON` để theo dõi từng buổi học.
